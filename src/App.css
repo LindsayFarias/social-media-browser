@@ -37,20 +37,6 @@
   }
 }
 
-.expanded-image {
-  height: 100%;
-  width: 100%;
-  margin: 10%;
-  padding: 20%;
-  border: 1px solid gainsboro;
-}
-
-.expanded-image:hover {
-  background-color: #4cc9f0;
-  -webkit-box-shadow: 10px 10px 99px 6px rgba(76,201,240,1);
-  -moz-box-shadow: 10px 10px 99px 6px rgba(76,201,240,1);
-  box-shadow: 10px 10px 99px 6px rgba(76,201,240,1);
-}
 
 .profile-image:hover {
   background-color: #f038ff;
@@ -66,7 +52,3 @@
   box-shadow: 10px 10px 99px 6px rgba(185, 231, 105, 1);
 }
 
-Nav {
-  display: flexbox;
-  padding: 5;
-}

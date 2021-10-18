@@ -1,9 +1,10 @@
-import { Card, Container, Col, Row, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
+import { Button, Card, Container, Col, Row, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
 import { Link, useRouteMatch, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react'
-import './App.css'
+import './App.css';
+import Home from "./Home";
 
-const Profiles = ({ profiles }) => {
+const Profiles = ({deleteFunc, profiles}) => {
     console.log(profiles)
 
     const [selected, setSelected] = useState();
@@ -19,6 +20,7 @@ const Profiles = ({ profiles }) => {
                     <Link onClick={()=>{setSelected(pokemon)}}to={`${path}/${pokemon.name}`}>{pokemon.name}</Link>
                     <Card.Text>{pokemon.type}</Card.Text>
                     <Card.Img src={pokemon.profileImage}></Card.Img>
+                    <Button variant='outline-info'><Link onClick={()=>{deleteFunc(pokemon)}} to='./'>unFriend</Link></Button>
                 </Card.Body>
             </Card>
         )
@@ -27,6 +29,7 @@ const Profiles = ({ profiles }) => {
     return(
         <Container>
             <Row>
+                <h1>Pokemon Friends</h1>
                 <Col md={4}>{pokemonCards}</Col>
                 <Col md={{span:4, offset:2}}>
                     <Route path={`${url}/:name`}>
@@ -34,6 +37,9 @@ const Profiles = ({ profiles }) => {
                     </Route>
                 </Col>
             </Row>
+            <Route path='/discover'>
+                <Home />
+            </Route>
         </Container>
     )
 }
@@ -62,7 +68,7 @@ const ActivePokemon = ({ pokemon }) =>{
                 </ListGroup>  
             </Card>
             <Route path={`${url}/profile-image/`}>
-                <PokeImg image={ pokemon.profileImage } />
+                <PokeImg image={ pokemon.enlargedImg } />
             </Route> 
         </Container>
     )
@@ -70,7 +76,7 @@ const ActivePokemon = ({ pokemon }) =>{
 
 const PokeImg = ({ image }) => {
     return(
-        <Container fluid className='expanded-image'>
+        <Container className='expanded-image'>
             <Image src={ image }/>
         </Container>
     )

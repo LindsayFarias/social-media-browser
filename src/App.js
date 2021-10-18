@@ -1,10 +1,11 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import { Switch, Route, Link } from 'react-router-dom';
 import Home from "./Home";
 import About from "./About";
 import Profiles from "./Profiles";
+import Discover from "./Discover";
 
 function App() {
   const [articles, setArticles] = useState([
@@ -29,7 +30,8 @@ function App() {
       profileImage: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/025.png',
       favorite: "My favorite think to do is have shocking amounts of fun",
       weakness: "Ground",
-      evolution: "Raichu"
+      evolution: "Raichu",
+      enlargedImg: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
     },
     {
       name: 'Bulbasaur',
@@ -37,7 +39,8 @@ function App() {
       profileImage: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png',
       favorite: "My favorite thing to do is dance in the rain!",
       weakness: "Fire, Psychic, Flying, Ice",
-      evolution: "Ivysaur"
+      evolution: "Ivysaur",
+      enlargedImg: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png"
     },
     {
       name: 'Charmander',
@@ -45,9 +48,63 @@ function App() {
       profileImage: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png',
       favorite: "My favorite thing to do is roast S'mores with friends",
       weakness: "Water, Ground, Rock",
-      evolution: "Charmeleon"
+      evolution: "Charmeleon",
+      enlargedImg: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png"
     }
   ])
+
+  const [potentialFriends, setPotentialFriends] = useState([
+    {
+        name: 'Squirtle',
+        type: 'Water',
+        profileImage: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png',
+        favorite: "My favorite think to do is to go tubing down the river in my shell!",
+        weakness: "Grass, Electric",
+        evolution: "Wartortle", 
+        enlargedImg: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
+    },
+    {
+        name: 'Caterpie',
+        type: 'Bug',
+        profileImage: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/010.png',
+        favorite: "I enjoy basking in the sunlight and hiding from Pidgey!",
+        weakness: "Fire, Flying, Rock",
+        evolution: "Metapod",
+        enlargedImg: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/010.png"
+    },
+    {
+        name: 'Pidgey',
+        type: 'Normal, Flying',
+        profileImage: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/016.png',
+        favorite: "I eating Caterpie, they are my favorite snack!",
+        weakness: "Electric, Ice, Rock",
+        evolution: "Pidgeotto",
+        enlargedImg: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/016.png"
+    },
+    {
+        name: 'Vulpix',
+        type: 'Fire',
+        profileImage: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/037.png',
+        favorite: "My favorite thing to do is hang out with my trainer Brock, he makes the best PokeFood!",
+        weakness: "Water, Ground, Rock",
+        evolution: "Ninetales",
+        enlargedImg: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/037.png"
+    },
+])
+
+  useEffect(()=>{
+    console.log(profiles)
+  }, [profiles])
+
+  function handleAdd(selected){
+    setProfiles([...profiles, selected])
+    setPotentialFriends(potentialFriends.filter((pokemon) => pokemon.name !== selected.name))
+  }
+
+  function handleDelete(selected){
+    setPotentialFriends([...potentialFriends, selected])
+    setProfiles(profiles.filter((pokemon) => pokemon.name !== selected.name))
+  }
 
   return (
     <div className="App">
@@ -55,9 +112,10 @@ function App() {
           <Container flex>
             <Navbar.Brand>Poke Friends</Navbar.Brand>
             <Nav className="me-auto">
-              <Button variant="outline-info"><Link to='/'>Home</Link></Button>{"   "}
-              <Button variant="outline-info"><Link to='/about'>About</Link></Button>{"   "}
-              <Button variant="outline-info"><Link to='/profiles'>Profiles</Link></Button>{"   "}
+              <Button variant="outline-info"><Link to='/'>Home</Link></Button>
+              <Button variant="outline-info"><Link to='/about'>About</Link></Button>
+              <Button variant="outline-info"><Link to='/profiles'>Profiles</Link></Button>
+              <Button variant="outline-info"><Link to='/discover-friends'>Discover New Friends</Link></Button>
             </Nav>
           </Container>
         </Navbar>
@@ -69,7 +127,10 @@ function App() {
             <About /> 
           </Route>
           <Route path='/profiles'> 
-            <Profiles profiles={ profiles } />
+            <Profiles deleteFunc={ handleDelete } profiles={ profiles } />
+          </Route>
+          <Route path='/discover-friends'>
+            <Discover add={ handleAdd } potentialFriends={potentialFriends}/>
           </Route>
         </Switch>
     </div>
